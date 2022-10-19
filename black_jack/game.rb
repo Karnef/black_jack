@@ -1,15 +1,15 @@
 class Game
   attr_reader :user, :dealer, :card_deck, :bank
 
+  DEALER_SCORE_CHOICE = 17
+  MAX_POINTS = 21
+  MAX_CARDS = 3
+  
   def initialize
     @dealer = Dealer.new
     @bank = Bank.new
     @card_deck = CardDeck.new
   end
-
-  DEALER_SCORE_CHOICE = 17
-  MAX_POINTS = 21
-  MAX_CARDS = 3
 
   def greeting
     puts "Welcome to the game"
