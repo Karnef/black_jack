@@ -7,6 +7,10 @@ class Game
     @card_deck = CardDeck.new
   end
 
+  DEALER_SCORE_CHOICE = 17
+  MAX_POINTS = 21
+  MAX_CARDS = 3
+
   def greeting
     puts "Welcome to the game"
     puts "Are you ready?\n1 - Yes\n2 - No"
@@ -41,7 +45,7 @@ class Game
   end
 
   def user_choice
-    open if @dealer.cards_on_hand.count == 3 && @user.cards_on_hand.count == 3
+    open if @dealer.cards_on_hand.count == MAX_CARDS && @user.cards_on_hand.count == MAX_CARDS
     puts "Your move:"
     puts "1 - skip"
     puts "2 - add card"
@@ -82,11 +86,11 @@ class Game
   end
 
   def dealer_choice
-    open if @user.cards_on_hand.count == 3 && @dealer.cards_on_hand.count == 3
-    if card_deck.count_points(dealer.cards_on_hand) >= 17
+    open if @user.cards_on_hand.count == MAX_CARDS && @dealer.cards_on_hand.count == MAX_CARDS
+    if card_deck.count_points(dealer.cards_on_hand) >= DEALER_SCORE_CHOICE
       puts "Dealer skip"
       user_choice
-    elsif card_deck.count_points(dealer.cards_on_hand) < 17
+    elsif card_deck.count_points(dealer.cards_on_hand) < DEALER_SCORE_CHOICE
       dealer.add_cards(card_deck)
       puts "Dealer take the card: #{@dealer.close_cards}"
       user_choice
@@ -99,11 +103,11 @@ class Game
     @user_points = @card_deck.count_points(user.cards_on_hand)
     @dealer_points = @card_deck.count_points(dealer.cards_on_hand)
 
-    if (@user_points > @dealer_points && @user_points <= 21) || (@user_points <= 21 && @dealer_points > 21)
+    if (@user_points > @dealer_points && @user_points <= MAX_POINTS) || (@user_points <= MAX_POINTS && @dealer_points > MAX_POINTS)
       puts "Congrats! You win. Your balance = #{@user.balance += @bank.balance_bank}$"
       puts "Dealer balance: #{@dealer.balance}$"
       @bank.balance_bank = 0
-    elsif @user_points < @dealer_points || @user_points > 21
+    elsif @user_points < @dealer_points || @user_points > MAX_POINTS
       puts "You lose. Your balance: #{@user.balance}$"
       puts "Dealer balance: #{@dealer.balance += @bank.balance_bank}$"
       @bank.balance_bank = 0
